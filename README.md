@@ -1,3 +1,3 @@
 # sb
 SWAGGER DOCS
-Documentation is available on /api-docs
+Documentation is available on http://domain.ext/api-docs
