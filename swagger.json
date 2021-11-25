@@ -151,30 +151,7 @@
           "200": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      },
-      "get": {
-        "tags": ["Accounts"],
-        "summary": "Returns all accounts",
-        "description": "Staffs and admin can see all accounts",
-        "operationId": "getaccounts",
-        "produces": ["application/json"],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/recover-password": {
