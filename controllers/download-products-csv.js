@@ -6,7 +6,7 @@ const { models } = require("../database/index");
 router
     .get("/", async (req, res) => {
         // Product data
-        let products = models.Product.findAll();
+        let products = await models.Product.findAll();
 
         // Fields
         const fields = [
@@ -30,7 +30,6 @@ router
 
         const json2csv = new Parser({ fields });
         const csv = json2csv.parse(products);
-        console.log(csv);
         res.header('Content-Type', 'text/csv');
         res.attachment(`products-${Date.now()}.csv`);
         res.send(csv);

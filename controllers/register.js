@@ -56,7 +56,6 @@ router
     }
 
     // Generate unique referral ID for user
-    let ref_id = await User.getUniqueRefId();
     let req_body = {
       ...req.body,
       active: 0,
@@ -65,7 +64,6 @@ router
       role_id: 1,
       activation_sent: 0,
       referrer_id,
-      ref_id,
       reg_ip: getClientIp(req),
     };
 
@@ -105,11 +103,6 @@ router
             "error"
           ).send();
         }
-
-        // Log user actions
-        logActivity(user.id, `You joined us || ${new Date()}.`).catch(
-          console.trace
-        );
       })
       .catch(function (err) {
         console.log(err);
@@ -122,7 +115,7 @@ router
   .get("/account-activate", async (req, res) => {
     req.App.setPage("account-activate");
 
-    const { send_email, resend_email, email } = req.query;
+    const { send_email, email } = req.query;
 
     User.findByEmail(email)
       .then(async (user) => {

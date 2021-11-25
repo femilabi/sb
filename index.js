@@ -9,6 +9,13 @@ const cors = require("cors");
 const { checkAuth } = require("./middlewares/auth");
 const ResponseHandler = require("./utils/responseHandler");
 
+const swaggerUI = require("swagger-ui-express");
+const swaggerDoc = require("./swagger.json");
+app.use(
+  '/api-docs',
+  swaggerUI.serve,
+  swaggerUI.setup(swaggerDoc)
+);
 // Block frames and others
 // app.use(helmet());
 

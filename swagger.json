@@ -1,0 +1,561 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "SWAGGER API DOCUMENTATION",
+    "version": "1.0.0",
+    "title": "SIMPLE API DOC"
+  },
+  "host": "localhost:9000",
+  "basePath": "/",
+  "schemes": ["https", "http"],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Users can register",
+        "description": "this endpoint uses get request to create users",
+        "operationId": "register",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "users email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "in": "formData",
+            "description": "users username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "firstname",
+            "in": "formData",
+            "description": "user firstname",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "lastname",
+            "in": "formData",
+            "description": "user lastname",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "formData",
+            "description": "user phone",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "description": "user password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/register/account-activate": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Send Activation Email",
+        "description": "This endpoint is used to activate user account",
+        "operationId": "AccountActivation",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "send_email",
+            "in": "formData",
+            "description": "Query params",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "users email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "register/account-activate/{hash}": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Activate User Account",
+        "description": "Activate user account from link recieved from email",
+        "operationId": "ActivateAccount",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "path",
+            "description": "Account Activation Hash",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User Login",
+        "description": "this endpoint allows users to login to their account",
+        "operationId": "Login",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "user email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "description": "user password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Accounts"],
+        "summary": "Returns all accounts",
+        "description": "Staffs and admin can see all accounts",
+        "operationId": "getaccounts",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/recover-password": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Recover Lost Password",
+        "description": "Recover User Lost Password",
+        "operationId": "recoverPasword",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "users account number",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "action",
+            "in": "formData",
+            "description": "action to recover password",
+            "required": true,
+            "type": "string",
+            "value": "generate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/recover-password/{hash}": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Reset Password",
+        "description": "Reset New Password",
+        "operationId": "resetPassword",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "path",
+            "description": "URI hash",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "description": "New Password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "confirm_password",
+            "in": "formData",
+            "description": "Confirm Password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "succcess"
+          }
+        }
+      }
+    },
+    "/product/create": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Create new product",
+        "description": "Create new product item",
+        "operationId": "createProduct",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Product Name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "category_id",
+            "in": "path",
+            "description": "Product Category",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "price",
+            "in": "path",
+            "description": "Product Price",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/product/edit/{id}": {
+      "put": {
+        "tags": ["Products"],
+        "summary": "Edit product",
+        "description": "Update info about product",
+        "operationId": "updateProduct",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Product name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "category_id",
+            "in": "formData",
+            "description": "Product Category",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "description": "Product Price",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/product/delete/{id}": {
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Remove Product",
+        "description": "Delete product record from database",
+        "operationId": "deleteProduct",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Fetch Products",
+        "description": "Get all products",
+        "operationId": "getAllProduct",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/product-category/create": {
+      "post": {
+        "tags": ["Product Categories"],
+        "summary": "Create new product category",
+        "description": "Create new product category",
+        "operationId": "createProductCategory",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Product Name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/product-category/edit/{id}": {
+      "put": {
+        "tags": ["Product Categories"],
+        "summary": "Edit Product Category",
+        "description": "Update info about product category",
+        "operationId": "updateProductCategory",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product Category ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Product Category name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/product-category/delete/{id}": {
+      "delete": {
+        "tags": ["Product Categories"],
+        "summary": "Remove Product Category",
+        "description": "Delete product category record from database",
+        "operationId": "deleteProduct",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product Category ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/product-categories": {
+      "get": {
+        "tags": ["Product Categories"],
+        "summary": "Fetch Product Categories",
+        "description": "Get all product categories",
+        "operationId": "getAllProductCategories",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/dummy-products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Generate Dummy Products",
+        "description": "Generate Dummy Products",
+        "operationId": "generateDummyProducts",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "download-products-csv": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Download Products As CSV",
+        "description": "Download Products As CSV",
+        "operationId": "downloadCSV",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Isuccess"
+          }
+        }
+      }
+    },
+    "/factorial": {
+      "get": {
+        "tags": ["Factorial"],
+        "summary": "Get a factorial of 13",
+        "description": "Get a factorial of 13",
+        "operationId": "factorialOf13",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/sth-sorted-states": {
+      "get": {
+        "tags": ["Sort States"],
+        "summary": "Sort States",
+        "description": "Sort States",
+        "operationId": "sortState",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/group-anagrams": {
+      "get": {
+        "tags": ["Anagrams"],
+        "summary": "Anagrams",
+        "description": "Anagrams",
+        "operationId": "word anagrams",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/get-index": {
+      "get": {
+        "tags": ["Get Index"],
+        "summary": "Get Index",
+        "description": "Get Index",
+        "operationId": "word Get Index",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    }
+  }
+}
